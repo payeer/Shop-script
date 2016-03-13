@@ -2,7 +2,7 @@
 
 return array(
 	'm_url' => array(
-        'value' => '//payeer.com/merchant/',
+        'value' => 'https://payeer.com/merchant/',
         'title' => 'URL мерчанта',
         'description' => 'url для оплаты в системе Payeer',
         'control_type' => waHtmlControl::INPUT,
@@ -10,19 +10,13 @@ return array(
     'm_shop' => array(
         'value' => '',
         'title' => 'Идентификатор магазина',
-        'description' => 'Идентификатор магазина, зарегистрированного в системе "PAYEER".<br/>Узнать его можно в <a href="http://www.payeer.com/account/">аккаунте Payeer</a>: "Аккаунт -> Мой магазин -> Изменить".',
+        'description' => 'Идентификатор магазина, зарегистрированного в системе "PAYEER".<br/>Узнать его можно в <a href="https://payeer.com/account/">аккаунте Payeer</a>.',
         'control_type' => waHtmlControl::INPUT,
     ),
     'm_key' => array(
         'value' => '',
         'title' => 'Секретный ключ',
-        'description' => 'Секретный ключ оповещения о выполнении платежа,<br/>который используется для проверки целостности полученной информации<br/>и однозначной идентификации отправителя.<br/>Должен совпадать с секретным ключем, указанным в <a href="http://www.payeer.com/account/">аккаунте Payeer</a>: "Аккаунт -> Мой магазин -> Изменить".',
-        'control_type' => waHtmlControl::INPUT,
-    ),
-	'm_desc' => array(
-        'value' => '',
-        'title' => 'Комментарий к оплате',
-        'description' => 'Пояснение оплаты заказа',
+        'description' => 'Секретный ключ оповещения о выполнении платежа,<br/>который используется для проверки целостности полученной информации<br/>и однозначной идентификации отправителя.<br/>Должен совпадать с секретным ключем, указанным в <a href="http://www.payeer.com/account/">аккаунте Payeer</a>',
         'control_type' => waHtmlControl::INPUT,
     ),
 	'ip_filter' => array(
