@@ -1,7 +1,7 @@
 <?php
 return array(
     'name' => ('Payeer'),
-    'description' => 'Оплата с помощью <a href="http://payeer.com" target="_blank">Payeer</a>.',
+    'description' => 'Оплата с помощью <a href="https://payeer.com" target="_blank">Payeer</a>.',
     'icon' => 'img/icon.png',
     'logo' => 'img/logo.png',
     'vendor' => 'webasyst',
