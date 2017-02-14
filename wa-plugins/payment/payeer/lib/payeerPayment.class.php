@@ -82,17 +82,17 @@ class payeerPayment extends waPayment implements waIPayment
 			
 					$log_text = 
 					"--------------------------------------------------------\n" .
-					"operation id		" . $request['m_operation_id'] . "\n" .
-					"operation ps		" . $request['m_operation_ps'] . "\n" .
-					"operation date		" . $request['m_operation_date'] . "\n" .
-					"operation pay date	" . $request['m_operation_pay_date'] . "\n" .
-					"shop				" . $request['m_shop'] . "\n" .
-					"order id			" . $request['m_orderid'] . "\n" .
-					"amount				" . $request['m_amount'] . "\n" .
-					"currency			" . $request['m_curr'] . "\n" .
-					"description		" . base64_decode($request['m_desc']) . "\n" .
-					"status				" . $request['m_status'] . "\n" .
-					"sign				" . $request['m_sign'] . "\n\n";
+					"operation id       " . $request['m_operation_id'] . "\n" .
+					"operation ps       " . $request['m_operation_ps'] . "\n" .
+					"operation date     " . $request['m_operation_date'] . "\n" .
+					"operation pay date " . $request['m_operation_pay_date'] . "\n" .
+					"shop               " . $request['m_shop'] . "\n" .
+					"order id           " . $request['m_orderid'] . "\n" .
+					"amount             " . $request['m_amount'] . "\n" .
+					"currency           " . $request['m_curr'] . "\n" .
+					"description        " . base64_decode($request['m_desc']) . "\n" .
+					"status             " . $request['m_status'] . "\n" .
+					"sign               " . $request['m_sign'] . "\n\n";
 					
 					$log_file = $this->log_file;
 					
@@ -153,18 +153,31 @@ class payeerPayment extends waPayment implements waIPayment
 						switch ($request['m_status'])
 						{
 							case 'success':
-								$callback_method = self::CALLBACK_PAYMENT;
-								$transaction_data = $this->saveTransaction($transaction_data, $request);
-								$callback = $this->execAppCallback($callback_method, $transaction_data);
-								self::addTransactionData($transaction_data['id'], $callback);
+							
+								$tm = new waTransactionModel();
+								$res = $tm->getByFields(array(
+									'native_id' => $transaction_data['native_id'],
+									'plugin' => $this->id
+								));
+
+								if (!$res)
+								{
+									$transaction_data['plugin'] = $this->id;
+									$transaction_data['state'] = self::STATE_CAPTURED;
+									$transaction_data = $this->saveTransaction($transaction_data, $request);
+									$callback = $this->execAppCallback(self::CALLBACK_PAYMENT, $transaction_data);
+									self::addTransactionData($transaction_data['id'], $callback);
+								}
+
 								break;
 								
 							default:
+								
 								$message .= " - статус платежа не является success\n";
-								$callback_method = self::CALLBACK_DECLINE;
 								$transaction_data = $this->saveTransaction($transaction_data, $request);
-								$callback = $this->execAppCallback($callback_method, $transaction_data);
+								$callback = $this->execAppCallback(self::CALLBACK_DECLINE, $transaction_data);
 								self::addTransactionData($transaction_data['id'], $callback);
+								
 								$err = true;
 								break;
 						}
